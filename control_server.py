@@ -1,5 +1,6 @@
 import socket
-import pyautogui
+import keyboard  # Import the keyboard library for keyboard actions
+import pyinputplus as pyip  # Import pyinputplus for mouse actions
 
 # Set up socket
 HOST = '192.168.1.6'  # Listen on all available network interfaces
@@ -32,32 +33,8 @@ while True:
         # Extract keyboard command
         command = data.split(':')[1]
 
-        # Perform corresponding action based on command
-        if command.lower() == 'enter':
-            pyautogui.press('enter')
-        elif command.lower() == 'tab':
-            pyautogui.press('tab')
-        elif command.lower() == 'space':
-            pyautogui.press('space')
-        elif command.lower() == 'left':
-            pyautogui.press('left')
-        elif command.lower() == 'right':
-            pyautogui.press('right')
-        elif command.lower() == 'up':
-            pyautogui.press('up')
-        elif command.lower() == 'down':
-            pyautogui.press('down')
-        elif command.lower() == 'esc':
-            pyautogui.press('esc')
-        elif command.lower() == 'delete':
-            pyautogui.press('delete')
-        elif command.lower() == 'home':
-            pyautogui.press('home')
-        elif command.lower() == 'end':
-            pyautogui.press('end')
-        else:
-            # If the command is not recognized, type it as it is
-            pyautogui.typewrite(command)
+        # Perform corresponding action based on command using the keyboard library
+        keyboard.press_and_release(command)
 
         # Send response back to client
         response = "Keyboard command executed!"
@@ -67,15 +44,17 @@ while True:
         # Extract mouse command
         mouse_command = data.split(':')[1]
 
-        # Perform corresponding action based on command
+        # Perform corresponding action based on command using pyinputplus
         if mouse_command.lower() == 'left_click':
-            pyautogui.click(button='left')
+            pyip.moveTo(100, 100)  # Move mouse to a position
+            pyip.click()  # Perform a left click
         elif mouse_command.lower() == 'right_click':
-            pyautogui.click(button='right')
+            pyip.moveTo(100, 100)  # Move mouse to a position
+            pyip.rightClick()  # Perform a right click
         elif mouse_command.lower() == 'scroll_up':
-            pyautogui.scroll(3)  # Scroll up by 3 "clicks"
+            pyip.scroll(10)  # Scroll up by 10 steps
         elif mouse_command.lower() == 'scroll_down':
-            pyautogui.scroll(-3)  # Scroll down by 3 "clicks"
+            pyip.scroll(-10)  # Scroll down by 10 steps
 
         # Send response back to client
         response = "Mouse command executed!"
